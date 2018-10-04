@@ -5,34 +5,33 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.animal.refugio.refugioanimales.R;
+import com.animal.refugio.refugioanimales.application.Controller.AnimalController;
 import com.animal.refugio.refugioanimales.persistance.DataSource;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    DataSource mDataSource;
+  AnimalController animalController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        mDataSource = new DataSource(this);
-        mDataSource.open();
-
-        Toast.makeText(this,"Creada",Toast.LENGTH_SHORT);
-
+       //crear controller
+        animalController = new AnimalController(this);
+        //Toast.makeText(this,"Creada",Toast.LENGTH_SHORT);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mDataSource.close();
+        animalController.closeDataSource();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mDataSource.open();
+        animalController.closeDataSource();
     }
 }
