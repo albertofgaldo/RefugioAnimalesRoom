@@ -7,14 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.animal.refugio.refugioanimales.application.Controller.AnimalController;
 
-public class BBDD_Structure extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_FILE_NAME = "animal_shelter.db";
     public static final int  DB_VERSION = 1;
 
     //final String CREAR_TABLA_ANIMAL = "CREATE TABLE animal (id INTEGER, nombre STRING, age INTEGER, hasChip BOOLEAN, kind STRING, registerDate DATE, picture BITMAP)";
 
-    public BBDD_Structure(Context context) {
+    public DBHelper(Context context) {
         super(context, DB_FILE_NAME, null, DB_VERSION);
     }
 
@@ -29,5 +29,10 @@ public class BBDD_Structure extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int verisonAntigua, int verisonNueva) {
         db.execSQL(ItemsTable.SQL_DELETE);
         onCreate(db);
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int verisonAntigua, int verisonNueva) {
+        onUpgrade(db, verisonAntigua, verisonNueva);
     }
 }
