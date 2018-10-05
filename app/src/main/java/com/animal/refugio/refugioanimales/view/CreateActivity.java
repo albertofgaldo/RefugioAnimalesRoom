@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.animal.refugio.refugioanimales.R;
+import com.animal.refugio.refugioanimales.application.Controller.AnimalController;
+import com.squareup.picasso.Picasso;
 
 public class CreateActivity extends AppCompatActivity {
 
@@ -20,10 +22,13 @@ public class CreateActivity extends AppCompatActivity {
     CheckBox hasChip;
     ImageView image;
     Button save;
+    AnimalController animalController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        animalController = new AnimalController(this);
 
         nameText = (EditText)findViewById(R.id.editTextName);
         ageText = (EditText)findViewById(R.id.editTextAge);
@@ -38,6 +43,7 @@ public class CreateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkFormCreate()){
                     //mapear los campos en una estructura
+                    animalController.mapFields(nameText,ageText,hasChip,dateText,typeText,image);
                 }else {
                     Toast.makeText(CreateActivity.this, "Revisa los campos", Toast.LENGTH_SHORT);
                 }
