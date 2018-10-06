@@ -1,37 +1,59 @@
 package com.animal.refugio.refugioanimales.view;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
 import com.animal.refugio.refugioanimales.R;
 import com.animal.refugio.refugioanimales.application.Controller.AnimalController;
-import com.animal.refugio.refugioanimales.persistance.DataSource;
 
 
 public class MainActivity extends AppCompatActivity {
 
   AnimalController animalController;
 
+  Button listButton, createButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-       //crear controller
+        listButton = (Button)findViewById(R.id.buttonList);
+        createButton = (Button)findViewById(R.id.buttonCreate);
         animalController = new AnimalController(this);
-        //Toast.makeText(this,"Creada",Toast.LENGTH_SHORT);
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent create = new Intent(MainActivity.this, CreateActivity.class);
+                startActivity(create);
+            }
+        });
+
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent list = new Intent(MainActivity.this, ListActivity.class);
+                startActivity(list);
+            }
+        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        animalController.closeDataSource();
+        animalController.closeConnection();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        animalController.closeDataSource();
+        animalController.openConnection();
     }
+
+
 }

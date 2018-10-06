@@ -1,5 +1,6 @@
 package com.animal.refugio.refugioanimales.view;
 
+import android.content.ContentValues;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 import com.animal.refugio.refugioanimales.R;
 import com.animal.refugio.refugioanimales.application.Controller.AnimalController;
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 public class CreateActivity extends AppCompatActivity {
 
@@ -43,7 +44,10 @@ public class CreateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkFormCreate()){
                     //mapear los campos en una estructura
-                    animalController.mapFields(nameText,ageText,hasChip,dateText,typeText,image);
+                    ContentValues values = animalController.mapFields(nameText,ageText,hasChip,dateText,typeText,image);
+                    //insertar los valores
+                    animalController.createAnimal(values);
+                    Toast.makeText(CreateActivity.this, "Animal creado", Toast.LENGTH_SHORT);
                 }else {
                     Toast.makeText(CreateActivity.this, "Revisa los campos", Toast.LENGTH_SHORT);
                 }

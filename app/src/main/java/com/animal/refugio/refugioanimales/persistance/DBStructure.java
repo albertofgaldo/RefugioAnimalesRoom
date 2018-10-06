@@ -1,6 +1,9 @@
 package com.animal.refugio.refugioanimales.persistance;
 
-public class ItemsTable {
+public class DBStructure {
+
+    private DBStructure() {}
+
     public static final String TABLE_NAME = "Animal";
     public static final String COLUMN_ID = "Id";
     public static final String COLUMN_NAME = "name";
@@ -9,6 +12,7 @@ public class ItemsTable {
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_DATE = "registrationDate";
     public static final String COLUMN_IMAGE = "image";
+
     public static final String SQL_CREATE =
             "CREATE TABLE " + TABLE_NAME + "(" +
                     COLUMN_ID + " TEXT PRIMARY KEY," +
@@ -18,6 +22,7 @@ public class ItemsTable {
                     COLUMN_TYPE + " TEXT," +
                     COLUMN_DATE + " DATE," +
                     COLUMN_IMAGE + " TEXT" + ");";
+
     public static final String SQL_DELETE =
             "DROP TABLE IF EXISTS" + TABLE_NAME;
 }
