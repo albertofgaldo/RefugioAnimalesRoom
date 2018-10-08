@@ -15,7 +15,7 @@ public class DBStructure {
 
     public static final String SQL_CREATE =
             "CREATE TABLE " + TABLE_NAME + "(" +
-                    COLUMN_ID + " INTEGER PRIMARY KEY," +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME + " TEXT," +
                     COLUMN_AGE + " INTEGER," +
                     COLUMN_CHIP + " BOOLEAN," +

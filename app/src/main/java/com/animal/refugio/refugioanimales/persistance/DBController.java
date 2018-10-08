@@ -30,6 +30,7 @@ public class DBController {
     public ContentValues mapFields(EditText nameText, EditText ageText, CheckBox hasChip, EditText dateText, EditText typeText, byte[] image){
         ContentValues values = new ContentValues();
 
+        //values.put(DBStructure.COLUMN_ID,);
         values.put(DBStructure.COLUMN_NAME,nameText.getText().toString());
         values.put(DBStructure.COLUMN_AGE,ageText.getText().toString());
         values.put(DBStructure.COLUMN_CHIP,hasChip.isChecked());

@@ -7,9 +7,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.animal.refugio.refugioanimales.domain.Animal;
 import com.animal.refugio.refugioanimales.persistance.DBController;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AnimalController {
 
@@ -32,6 +35,7 @@ public class AnimalController {
     }
 
     public void createAnimal(EditText nameText, EditText ageText, CheckBox hasChip, EditText dateText, EditText typeText, ImageView image){
+        //Animal animal = new Animal(nameText.toString(), (Integer.parseInt(ageText.toString())),hasChip.isActivated(),typeText.toString(),dateText.toString(),image);
         dbController.insertValues(nameText, ageText, hasChip, dateText, typeText, imageViewToByte(image));
     }
 
