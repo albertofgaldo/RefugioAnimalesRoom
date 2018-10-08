@@ -1,51 +1,46 @@
 package com.animal.refugio.refugioanimales.application.Controller;
 
-import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.animal.refugio.refugioanimales.persistance.DBStructure;
-import com.animal.refugio.refugioanimales.persistance.DBConnection;
-//import com.squareup.picasso.Picasso;
+import com.animal.refugio.refugioanimales.persistance.DBController;
+
+import java.io.ByteArrayOutputStream;
 
 public class AnimalController {
 
-    DBConnection dbConnection;
+    //DBConnection dbConnection;
+    DBController dbController;
+
+    Context context;
 
     public AnimalController(Context context){
-        dbConnection = new DBConnection(context);
-        dbConnection.open();
+        this.context = context;
+        dbController = new DBController(context);
     }
 
     public void openConnection(){
-        dbConnection.open();
+        dbController.openConnection();
     }
 
     public void closeConnection(){
-        dbConnection.close();
+        dbController.closeConnection();
     }
 
-  //crear funciones insert
-
-    public ContentValues mapFields(EditText nameText, EditText ageText, CheckBox hasChip, EditText dateText, EditText typeText, ImageView image){
-        ContentValues values = new ContentValues();
-
-        values.put(DBStructure.COLUMN_NAME,nameText.getText().toString());
-        values.put(DBStructure.COLUMN_AGE,ageText.getText().toString());
-        values.put(DBStructure.COLUMN_CHIP,hasChip.isChecked());
-        values.put(DBStructure.COLUMN_DATE,dateText.getText().toString());
-        values.put(DBStructure.COLUMN_TYPE, typeText.getText().toString());
-        //fata pasar imagen
-        //Picasso.with(contxt).load(imageurl).placeholder(R.drawable.ic_launcher).into(imageview);
-        //contentValues.put(DBStructure.COLUMN_IMAGE, image.get)
-        return values;
+    public void createAnimal(EditText nameText, EditText ageText, CheckBox hasChip, EditText dateText, EditText typeText, ImageView image){
+        dbController.insertValues(nameText, ageText, hasChip, dateText, typeText, imageViewToByte(image));
     }
 
-    public void createAnimal(ContentValues values){
-        dbConnection.insert(DBStructure.TABLE_NAME,values);
+    public byte[] imageViewToByte (ImageView image){
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
     }
-
 
 }

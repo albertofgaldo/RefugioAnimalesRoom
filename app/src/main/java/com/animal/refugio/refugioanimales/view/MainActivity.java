@@ -13,9 +13,8 @@ import com.animal.refugio.refugioanimales.application.Controller.AnimalControlle
 
 public class MainActivity extends AppCompatActivity {
 
-  AnimalController animalController;
-
-  Button listButton, createButton;
+    Button listButton, createButton;
+    AnimalController animalController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +23,13 @@ public class MainActivity extends AppCompatActivity {
 
         listButton = (Button)findViewById(R.id.buttonList);
         createButton = (Button)findViewById(R.id.buttonCreate);
+
         animalController = new AnimalController(this);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animalController.closeConnection();
                 Intent create = new Intent(MainActivity.this, CreateActivity.class);
                 startActivity(create);
             }
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animalController.closeConnection();
                 Intent list = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(list);
             }

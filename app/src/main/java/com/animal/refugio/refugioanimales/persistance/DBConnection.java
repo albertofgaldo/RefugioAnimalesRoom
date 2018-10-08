@@ -3,7 +3,6 @@ package com.animal.refugio.refugioanimales.persistance;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBConnection {
 
