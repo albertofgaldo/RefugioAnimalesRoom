@@ -21,6 +21,8 @@ public class DBConnection {
         database = dbHelper.getWritableDatabase();
     }
 
+    public void read(){ database = dbHelper.getReadableDatabase(); }
+
     public void close(){
         database.close();
     }

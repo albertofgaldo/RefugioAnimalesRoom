@@ -1,12 +1,10 @@
-package com.animal.refugio.refugioanimales.domain;
+package com.animal.refugio.refugioanimales.application.Controller;
 
-import android.graphics.Bitmap;
 import android.media.Image;
 
 import java.util.Date;
 
-public class Animal {
-
+public class AnimalDTO {
     private int id;
     private String name;
     private int age;
@@ -14,17 +12,15 @@ public class Animal {
     private String type;
     private Date date;
     private Image picture;
-    private static int counter=1;
 
-    public Animal(String name, int age, boolean hasChip, String type, Date date, Image picture ){
-        this.id= counter;
+    public AnimalDTO(String name, int age, boolean hasChip, String type, Date date, Image picture ){
+
         this.name = name;
         this.age = age;
         this.hasChip = hasChip;
         this.type = type;
         this.date = date;
         this.picture = picture;
-        this.counter++;
     }
 
     public int getId(){ return this.id; }
