@@ -3,6 +3,7 @@ package com.animal.refugio.refugioanimales.persistance;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -86,7 +87,7 @@ public class DBController {
 
         ArrayList <ContentValues> animales = new ArrayList<>();
 
-        for(int i=0; i<=cursor.getCount();i++){
+        for(int i=0; i<cursor.getCount();i++){
            animales.add(mapResult(cursor));
            cursor.moveToNext();
         }
@@ -96,12 +97,12 @@ public class DBController {
     public ContentValues mapResult(Cursor c){
         ContentValues values = new ContentValues();
 
-        values.put(DBStructure.COLUMN_NAME,c.getColumnIndex(DBStructure.COLUMN_NAME));
-        values.put(DBStructure.COLUMN_AGE,c.getColumnIndex(DBStructure.COLUMN_AGE));
-        values.put(DBStructure.COLUMN_CHIP,c.getColumnIndex(DBStructure.COLUMN_CHIP));
-        values.put(DBStructure.COLUMN_DATE,c.getColumnIndex(DBStructure.COLUMN_DATE));
-        values.put(DBStructure.COLUMN_TYPE, c.getColumnIndex(DBStructure.COLUMN_TYPE));
-        values.put(DBStructure.COLUMN_IMAGE, c.getColumnIndex(DBStructure.COLUMN_IMAGE));
+        values.put(DBStructure.COLUMN_NAME,c.getString(c.getColumnIndex(DBStructure.COLUMN_NAME)));
+        values.put(DBStructure.COLUMN_AGE,c.getInt(c.getColumnIndex(DBStructure.COLUMN_AGE)));
+        values.put(DBStructure.COLUMN_CHIP,c.getInt(c.getColumnIndex(DBStructure.COLUMN_CHIP))==1);
+        values.put(DBStructure.COLUMN_DATE,c.getString(c.getColumnIndex(DBStructure.COLUMN_DATE)));
+        values.put(DBStructure.COLUMN_TYPE, c.getString(c.getColumnIndex(DBStructure.COLUMN_TYPE)));
+        values.put(DBStructure.COLUMN_IMAGE, c.getBlob(c.getColumnIndex(DBStructure.COLUMN_IMAGE)));
 
         return values;
     }

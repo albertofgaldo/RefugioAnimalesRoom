@@ -1,5 +1,6 @@
 package com.animal.refugio.refugioanimales.application.Controller;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 
 import java.util.Date;
@@ -10,10 +11,12 @@ public class AnimalDTO {
     private int age;
     private boolean hasChip;
     private String type;
-    private Date date;
-    private Image picture;
+    private String date;
+    private Bitmap picture;
 
-    public AnimalDTO(String name, int age, boolean hasChip, String type, Date date, Image picture ){
+    public AnimalDTO(){};
+
+    public AnimalDTO(String name, int age, boolean hasChip, String type, String date, Bitmap picture ){
 
         this.name = name;
         this.age = age;
@@ -41,11 +44,11 @@ public class AnimalDTO {
 
     public void setKindAnimal(String type){this.type = type; }
 
-    public Date getDate (){return date;}
+    public String getDate (){return date;}
 
-    public void setDate (Date date){this.date=date;}
+    public void setDate (String date){this.date=date;}
 
-    public Image getPicture(){ return this.picture;}
+    public Bitmap getPicture(){ return this.picture;}
 
-    public void setPicture(Image picture){this.picture=picture;}
+    public void setPicture(Bitmap picture){this.picture=picture;}
 }
