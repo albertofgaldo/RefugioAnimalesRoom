@@ -85,6 +85,7 @@ public class CreateActivity extends AppCompatActivity {
                 if(checkFormCreate()) {
                     animalController.createAnimal(nameText, ageText, hasChip, dateText, typeText, image);
                     Toast.makeText(CreateActivity.this, "Animal creado", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });

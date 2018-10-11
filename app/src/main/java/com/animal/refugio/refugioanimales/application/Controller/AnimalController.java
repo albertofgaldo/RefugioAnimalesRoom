@@ -25,11 +25,8 @@ import java.util.Locale;
 public class AnimalController {
 
     DBController dbController;
-    AnimalDTO animalDTO;
-    Context context;
 
     public AnimalController(Context context){
-        this.context = context;
         dbController = new DBController(context);
     }
 
@@ -54,22 +51,6 @@ public class AnimalController {
     }
 
     public ArrayList<AnimalDTO> readAnimals() {
-        ArrayList<AnimalDTO> animalesDTO = new ArrayList<>();
-        ArrayList<ContentValues> animalesContent = new ArrayList<>(dbController.createQuery());
-        animalDTO = new AnimalDTO();
-
-
-        //animalesContent =
-        for (ContentValues animal: animalesContent) {
-            animalDTO.setName(animal.getAsString("name"));
-            animalDTO.setAge(animal.getAsInteger("age"));
-            animalDTO.setHasChip(animal.getAsBoolean("hasChip"));
-            animalDTO.setDate(animal.getAsString("registrationDate"));
-            animalDTO.setKindAnimal(animal.getAsString("type"));
-            Bitmap bitmap = BitmapFactory.decodeByteArray((byte[])animal.get("image"),0,((byte[]) animal.get("image")).length);
-            animalDTO.setPicture(bitmap);
-            animalesDTO.add(animalDTO);
-        }
-        return animalesDTO;
+       return dbController.animalToArrayList();
     }
 }

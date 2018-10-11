@@ -4,8 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import com.animal.refugio.refugioanimales.application.Controller.AnimalDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +51,10 @@ public class DBController {
         return values;
     }
 
-    public ArrayList<ContentValues> createQuery(){
+    public ArrayList<ContentValues> createQuery(Integer id){
         //Selecionar columnas
         String [] projection = {
+                DBStructure.COLUMN_ID,
                 DBStructure.COLUMN_NAME,
                 DBStructure.COLUMN_AGE,
                 DBStructure.COLUMN_CHIP,
@@ -96,7 +100,7 @@ public class DBController {
 
     public ContentValues mapResult(Cursor c){
         ContentValues values = new ContentValues();
-
+        values.put(DBStructure.COLUMN_ID,c.getInt(c.getColumnIndex(DBStructure.COLUMN_ID)));
         values.put(DBStructure.COLUMN_NAME,c.getString(c.getColumnIndex(DBStructure.COLUMN_NAME)));
         values.put(DBStructure.COLUMN_AGE,c.getInt(c.getColumnIndex(DBStructure.COLUMN_AGE)));
         values.put(DBStructure.COLUMN_CHIP,c.getInt(c.getColumnIndex(DBStructure.COLUMN_CHIP))==1);
@@ -107,5 +111,22 @@ public class DBController {
         return values;
     }
 
+    public ArrayList<AnimalDTO> animalToArrayList(){
+        ArrayList<AnimalDTO> animalesDTO = new ArrayList<>();
+        ArrayList<ContentValues> animalesContent = new ArrayList<>(createQuery(null));
 
+        for (ContentValues animal: animalesContent) {
+            AnimalDTO animalDTO = new AnimalDTO();
+            animalDTO.setId(animal.getAsInteger("Id"));
+            animalDTO.setName(animal.getAsString("name"));
+            animalDTO.setAge(animal.getAsInteger("age"));
+            animalDTO.setHasChip(animal.getAsBoolean("hasChip"));
+            animalDTO.setDate(animal.getAsString("registrationDate"));
+            animalDTO.setKindAnimal(animal.getAsString("type"));
+            Bitmap bitmap = BitmapFactory.decodeByteArray((byte[])animal.get("image"),0,((byte[]) animal.get("image")).length);
+            animalDTO.setPicture(bitmap);
+            animalesDTO.add(animalDTO);
+        }
+        return animalesDTO;
+    }
 }
