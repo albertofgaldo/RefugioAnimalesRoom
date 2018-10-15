@@ -2,6 +2,8 @@ package com.animal.refugio.refugioanimales.application.Controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -49,9 +51,9 @@ public class AnimalAdapter extends ArrayAdapter {
         name.setText("Nombre: " + animalDTO.get(position).getName());
         age.setText("Edad: " + (Integer.toString(animalDTO.get(position).getAge())));
         chip.setText(hasChip(animalDTO.get(position).getHasChip()));
-        type.setText("Tipo: " + animalDTO.get(position).getKindAnimal());
+        type.setText("Tipo: " + animalDTO.get(position).getType());
         date.setText("Registro: " + animalDTO.get(position).getDate());
-        image.setImageBitmap(animalDTO.get(position).getPicture());
+        image.setImageBitmap(byteToBmp(animalDTO.get(position).getPicture()));
 
         item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +63,11 @@ public class AnimalAdapter extends ArrayAdapter {
         });
 
         return item;
+    }
+    
+    public Bitmap byteToBmp(byte[] image){
+        Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
+        return bmp;
     }
 
     public String hasChip(Boolean hasChip){

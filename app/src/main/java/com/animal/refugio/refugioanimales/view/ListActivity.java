@@ -29,7 +29,7 @@ public class ListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listViewAnimales);
         animalController = new AnimalController(ListActivity.this);
-        animales = new ArrayList<>(animalController.readAnimals());
+        animales = new ArrayList<>(animalController.getAnimalesList());
         adapter = new AnimalAdapter(ListActivity.this,animales);
         listView.setAdapter(adapter);
     }

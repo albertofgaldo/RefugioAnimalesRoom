@@ -11,12 +11,12 @@ public class AnimalDTO {
     private int age;
     private boolean hasChip;
     private String type;
-    private String date;
-    private Bitmap picture;
+    private long date;
+    private byte[] picture;
 
     public AnimalDTO(){};
 
-    public AnimalDTO(String name, int age, boolean hasChip, String type, String date, Bitmap picture ){
+    public AnimalDTO(String name, int age, boolean hasChip, String type, long date, byte[] picture ){
 
         this.name = name;
         this.age = age;
@@ -42,15 +42,15 @@ public class AnimalDTO {
 
     public void setHasChip(boolean hasChip){ this.hasChip=hasChip; }
 
-    public String getKindAnimal(){ return this.type; }
+    public String getType(){ return this.type; }
 
-    public void setKindAnimal(String type){this.type = type; }
+    public void setType(String type){this.type = type; }
 
-    public String getDate (){return date;}
+    public long getDate (){return date;}
 
-    public void setDate (String date){this.date=date;}
+    public void setDate (long date){this.date=date;}
 
-    public Bitmap getPicture(){ return this.picture;}
+    public byte[] getPicture(){ return this.picture;}
 
-    public void setPicture(Bitmap picture){this.picture=picture;}
+    public void setPicture(byte[] picture){this.picture=picture;}
 }

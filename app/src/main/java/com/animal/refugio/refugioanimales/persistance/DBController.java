@@ -9,34 +9,51 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.animal.refugio.refugioanimales.application.Controller.AnimalDTO;
+import com.animal.refugio.refugioanimales.domain.Animal;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DBController {
 
-    DBConnection dbConnection;
+   // DBConnection dbConnection;
+    DBRoom dbRoom;
+    List<AnimalDTO> animalesDTO;
+    Animal animal;
 
     public DBController(Context context){
-        dbConnection = new DBConnection(context);
-        dbConnection.open();
+      //  dbConnection = new DBConnection(context);
+      //  dbConnection.open();
+        dbRoom = DBRoom.getInstance(context);
     }
 
     public void openConnection(){
-        dbConnection.open();
+        //dbConnection.open();
     }
 
-    public void readConnection() { dbConnection.read(); }
+    public void readConnection() {
+        //dbConnection.read();
+    }
 
     public void closeConnection(){
-        dbConnection.close();
+        //dbConnection.close();
+        DBRoom.destroyInstance();
     }
 
-    public void insertValues(EditText nameText, EditText ageText, CheckBox hasChip, EditText dateText, EditText typeText, byte[] image){
-        ContentValues values = mapFields(nameText, ageText, hasChip, dateText, typeText, image);
-        dbConnection.insert(DBStructure.TABLE_NAME, values);
+    public void insertAnimal(Animal animal){
+        //ContentValues values = mapFields(nameText, ageText, hasChip, dateText, typeText, image);
+        //dbConnection.insert(DBStructure.TABLE_NAME, values);
+        dbRoom.animalDao().insertAll(animal);
     }
 
+    public List<AnimalDTO> getAnimales(){
+        return dbRoom.animalDao().getAllOrderedByDateDesc();
+    }
+
+    public AnimalDTO getAnimal(int id){
+        return dbRoom.animalDao().getAnimalById(id);
+    }
+/*
     public ContentValues mapFields(EditText nameText, EditText ageText, CheckBox hasChip, EditText dateText, EditText typeText, byte[] image){
         ContentValues values = new ContentValues();
 
@@ -73,7 +90,7 @@ public class DBController {
         return createCursor(projection,selection,selectionArgs,sortOrder);
     }
 
-    public ArrayList<ContentValues> createCursor(String [] projection, String selection, String [] selectionArgs, String sortOrder){
+   public ArrayList<ContentValues> createCursor(String [] projection, String selection, String [] selectionArgs, String sortOrder){
         Cursor c = dbConnection.database.query(
                 DBStructure.TABLE_NAME,
                 projection,
@@ -128,5 +145,5 @@ public class DBController {
             animalesDTO.add(animalDTO);
         }
         return animalesDTO;
-    }
+    }*/
 }
