@@ -39,12 +39,12 @@
         android:layout_width="192dp"
         android:layout_height="192dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="TODO"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCreate"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/picture_frame" />
 
     <EditText
@@ -71,14 +71,14 @@
         android:layout_marginEnd="8dp"
         android:text="editar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonSave2"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDelete"
         app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextType"
         app:layout_constraintVertical_bias="0.6" />
 
     <Button
-        android:id="@+id/buttonSave2"
+        android:id="@+id/buttonDelete"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -89,19 +89,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextType"
         app:layout_constraintVertical_bias="0.6" />
-
-    <TextView
-        android:id="@+id/textViewCreate"
-        android:layout_width="0dp"
-        android:layout_height="13dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Alta"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
 
     <CheckBox
         android:id="@+id/checkBoxChip"
@@ -135,6 +122,6 @@
         android:id="@+id/groupDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="editTextType,editTextDate,imageViewPicture,editTextName,textViewCreate,checkBoxChip,editTextAge" />
+        app:constraint_referenced_ids="editTextType,editTextDate,imageViewPicture,editTextName,checkBoxChip,editTextAge" />
 
 </android.support.constraint.ConstraintLayout>

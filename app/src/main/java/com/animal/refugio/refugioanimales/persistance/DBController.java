@@ -1,149 +1,91 @@
 package com.animal.refugio.refugioanimales.persistance;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.app.Application;
+import android.arch.lifecycle.LiveData;
+import android.os.AsyncTask;
 
 import com.animal.refugio.refugioanimales.application.Controller.AnimalDTO;
 import com.animal.refugio.refugioanimales.domain.Animal;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DBController {
 
-   // DBConnection dbConnection;
-    DBRoom dbRoom;
-    List<AnimalDTO> animalesDTO;
-    Animal animal;
+    private AnimalDao animalDao;
+    LiveData<List<AnimalDTO>> animalesDTO;
 
-    public DBController(Context context){
-      //  dbConnection = new DBConnection(context);
-      //  dbConnection.open();
-        dbRoom = DBRoom.getInstance(context);
-    }
-
-    public void openConnection(){
-        //dbConnection.open();
-    }
-
-    public void readConnection() {
-        //dbConnection.read();
+    public DBController(Application application){
+        DBRoom dbRoom = DBRoom.getInstance(application);
+        animalDao = dbRoom.animalDao();
+        animalesDTO = animalDao.getAllOrderedByDateDesc();
     }
 
     public void closeConnection(){
-        //dbConnection.close();
         DBRoom.destroyInstance();
     }
 
-    public void insertAnimal(Animal animal){
-        //ContentValues values = mapFields(nameText, ageText, hasChip, dateText, typeText, image);
-        //dbConnection.insert(DBStructure.TABLE_NAME, values);
-        dbRoom.animalDao().insertAll(animal);
+    public void insert(Animal animal){
+        new InsertAnimalAsyncTask(animalDao).execute(animal);
     }
 
-    public List<AnimalDTO> getAnimales(){
-        return dbRoom.animalDao().getAllOrderedByDateDesc();
+    public void delete(Animal animal){
+        new DeleteAnimalAsyncTask(animalDao).execute(animal);
     }
 
-    public AnimalDTO getAnimal(int id){
-        return dbRoom.animalDao().getAnimalById(id);
-    }
-/*
-    public ContentValues mapFields(EditText nameText, EditText ageText, CheckBox hasChip, EditText dateText, EditText typeText, byte[] image){
-        ContentValues values = new ContentValues();
-
-        //values.put(DBStructure.COLUMN_ID,);
-        values.put(DBStructure.COLUMN_NAME,nameText.getText().toString());
-        values.put(DBStructure.COLUMN_AGE,ageText.getText().toString());
-        values.put(DBStructure.COLUMN_CHIP,hasChip.isChecked());
-        values.put(DBStructure.COLUMN_DATE,dateText.getText().toString());
-        values.put(DBStructure.COLUMN_TYPE, typeText.getText().toString());
-        values.put(DBStructure.COLUMN_IMAGE, image);
-
-        return values;
+    public void update(Animal animal){
+        new UpdateAnimalAsyncTask(animalDao).execute(animal);
     }
 
-    public ArrayList<ContentValues> createQuery(Integer id){
-        //Selecionar columnas
-        String [] projection = {
-                DBStructure.COLUMN_ID,
-                DBStructure.COLUMN_NAME,
-                DBStructure.COLUMN_AGE,
-                DBStructure.COLUMN_CHIP,
-                DBStructure.COLUMN_DATE,
-                DBStructure.COLUMN_TYPE,
-                DBStructure.COLUMN_IMAGE
-        };
-        //Seleccionar where
-        String selection = "";
-        String[] selectionArgs = {""};
-
-        //Ordenar búsqueda
-        String sortOrder =
-                DBStructure.COLUMN_DATE + " DESC";
-
-        return createCursor(projection,selection,selectionArgs,sortOrder);
-    }
-
-   public ArrayList<ContentValues> createCursor(String [] projection, String selection, String [] selectionArgs, String sortOrder){
-        Cursor c = dbConnection.database.query(
-                DBStructure.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,           //agrupar registros
-                null,           //agrupar por filas
-                sortOrder
-        );
-        c.moveToFirst();
-        return queryToList(c);
-    }
-
-    public ArrayList<ContentValues> queryToList(Cursor cursor){
-
-        ArrayList <ContentValues> animales = new ArrayList<>();
-
-        for(int i=0; i<cursor.getCount();i++){
-           animales.add(mapResult(cursor));
-           cursor.moveToNext();
-        }
-        return animales;
-    }
-
-    public ContentValues mapResult(Cursor c){
-        ContentValues values = new ContentValues();
-        values.put(DBStructure.COLUMN_ID,c.getInt(c.getColumnIndex(DBStructure.COLUMN_ID)));
-        values.put(DBStructure.COLUMN_NAME,c.getString(c.getColumnIndex(DBStructure.COLUMN_NAME)));
-        values.put(DBStructure.COLUMN_AGE,c.getInt(c.getColumnIndex(DBStructure.COLUMN_AGE)));
-        values.put(DBStructure.COLUMN_CHIP,c.getInt(c.getColumnIndex(DBStructure.COLUMN_CHIP))==1);
-        values.put(DBStructure.COLUMN_DATE,c.getString(c.getColumnIndex(DBStructure.COLUMN_DATE)));
-        values.put(DBStructure.COLUMN_TYPE, c.getString(c.getColumnIndex(DBStructure.COLUMN_TYPE)));
-        values.put(DBStructure.COLUMN_IMAGE, c.getBlob(c.getColumnIndex(DBStructure.COLUMN_IMAGE)));
-
-        return values;
-    }
-
-    public ArrayList<AnimalDTO> animalToArrayList(){
-        ArrayList<AnimalDTO> animalesDTO = new ArrayList<>();
-        ArrayList<ContentValues> animalesContent = new ArrayList<>(createQuery(null));
-
-        for (ContentValues animal: animalesContent) {
-            AnimalDTO animalDTO = new AnimalDTO();
-            animalDTO.setId(animal.getAsInteger("Id"));
-            animalDTO.setName(animal.getAsString("name"));
-            animalDTO.setAge(animal.getAsInteger("age"));
-            animalDTO.setHasChip(animal.getAsBoolean("hasChip"));
-            animalDTO.setDate(animal.getAsString("registrationDate"));
-            animalDTO.setKindAnimal(animal.getAsString("type"));
-            Bitmap bitmap = BitmapFactory.decodeByteArray((byte[])animal.get("image"),0,((byte[]) animal.get("image")).length);
-            animalDTO.setPicture(bitmap);
-            animalesDTO.add(animalDTO);
-        }
+    public LiveData<List<AnimalDTO>> getAnimales(){
         return animalesDTO;
-    }*/
+    }
+
+    public Animal getAnimal(int id){
+        return animalDao.getAnimalById(id);
+    }
+
+    public AnimalDTO getAnimalDTO(int id){
+        return animalDao.getAnimalDTOById(id);
+    }
+
+    //creamos una clase para insertar animales asíncronamente (necesario para LiveData)
+    private static class InsertAnimalAsyncTask extends AsyncTask<Animal,Void, Void>{
+        private AnimalDao animalDao;
+        private InsertAnimalAsyncTask(AnimalDao animalDao){
+            this.animalDao = animalDao;
+        }
+
+        @Override
+        protected Void doInBackground(Animal... animals) {
+            animalDao.insertAll(animals[0]);
+            return null;
+        }
+    }
+    //creamos una clase para borrar animales asíncronamente (necesario para LiveData)
+    private static class DeleteAnimalAsyncTask extends AsyncTask<Animal,Void, Void>{
+        private AnimalDao animalDao;
+        private DeleteAnimalAsyncTask(AnimalDao animalDao){
+            this.animalDao = animalDao;
+        }
+
+        @Override
+        protected Void doInBackground(Animal... animals) {
+            animalDao.deleteAnimal(animals[0]);
+            return null;
+        }
+    }
+    //creamos una clase para actualizar animales asíncronamente (necesario para LiveData)
+    private static class UpdateAnimalAsyncTask extends AsyncTask<Animal,Void, Void>{
+        private AnimalDao animalDao;
+        private UpdateAnimalAsyncTask(AnimalDao animalDao){
+            this.animalDao = animalDao;
+        }
+
+        @Override
+        protected Void doInBackground(Animal... animals) {
+            animalDao.updateAnimal(animals[0]);
+            return null;
+        }
+    }
 }
+

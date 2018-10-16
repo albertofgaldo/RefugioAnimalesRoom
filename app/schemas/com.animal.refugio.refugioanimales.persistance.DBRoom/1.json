@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a5c701d37ddcaa9692134ae953b70202",
+    "identityHash": "0bf45153788ea8ff392be12f9882eeba",
     "entities": [
       {
         "tableName": "Animal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `age` INTEGER NOT NULL, `hasChip` INTEGER NOT NULL, `type` TEXT, `date` INTEGER NOT NULL, `picture` BLOB)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `age` INTEGER NOT NULL, `hasChip` INTEGER NOT NULL, `type` TEXT, `date` TEXT, `picture` BLOB)",
         "fields": [
           {
             "fieldPath": "id",
@@ -41,8 +41,8 @@
           {
             "fieldPath": "date",
             "columnName": "date",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "picture",
@@ -63,7 +63,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a5c701d37ddcaa9692134ae953b70202\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0bf45153788ea8ff392be12f9882eeba\")"
     ]
   }
 }

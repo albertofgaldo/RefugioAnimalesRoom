@@ -2,6 +2,7 @@ package com.animal.refugio.refugioanimales.view;
 
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.animal.refugio.refugioanimales.R;
 import com.animal.refugio.refugioanimales.application.Controller.AnimalController;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -55,7 +57,7 @@ public class CreateActivity extends AppCompatActivity {
         save = (Button)findViewById(R.id.buttonSave);
         oldDrawable = image.getDrawable();
 
-        animalController = new AnimalController(this);
+        animalController = ViewModelProviders.of(this).get(AnimalController.class);
 
         date = new DatePickerDialog.OnDateSetListener() {
 
@@ -83,7 +85,7 @@ public class CreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkFormCreate()) {
-                    animalController.createAnimal(nameText, ageText, hasChip, dateText, typeText, image);
+                    animalController.createAnimal(animalController.mapFieldsToAnimal(nameText, ageText, hasChip, dateText, typeText, image));
                     Toast.makeText(CreateActivity.this, "Animal creado", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -116,7 +118,6 @@ public class CreateActivity extends AppCompatActivity {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             image.setImageBitmap(photo);
         }else if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            //imageUri = data.getData();
             image.setImageURI(data.getData());
         }
     }

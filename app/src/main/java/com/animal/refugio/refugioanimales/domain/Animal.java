@@ -1,15 +1,13 @@
 package com.animal.refugio.refugioanimales.domain;
-
+import com.animal.refugio.refugioanimales.utilities.*;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.graphics.Bitmap;
-import android.media.Image;
+import android.arch.persistence.room.TypeConverters;
+
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
-import java.sql.Blob;
 import java.util.Date;
 
 @Entity
@@ -26,13 +24,16 @@ public class Animal implements Parcelable {
     @ColumnInfo
     private String type;
     @ColumnInfo
-    private long date;
+    @TypeConverters(DateTypeConverter.class)
+    private String date;
     @ColumnInfo
     private byte[] picture;
     @ColumnInfo()
     private static int counter=1;
 
-    public Animal(String name, int age, boolean hasChip, String type, long date, byte[] picture ){
+    public Animal(){}
+
+    public Animal(String name, int age, boolean hasChip, String type, String date, byte[] picture ){
         this.id= counter;
         this.name = name;
         this.age = age;
@@ -49,7 +50,7 @@ public class Animal implements Parcelable {
         age = in.readInt();
         hasChip = in.readByte() != 0;
         type = in.readString();
-        date = in.readLong();
+        date = in.readString();
         picture = in.createByteArray();
     }
 
@@ -85,9 +86,9 @@ public class Animal implements Parcelable {
 
     public void setType(String type){this.type = type; }
 
-    public long getDate (){return date;}
+    public String getDate (){return date;}
 
-    public void setDate (long date){this.date=date;}
+    public void setDate (String date){this.date=date;}
 
     public byte[] getPicture(){ return this.picture;}
 
@@ -105,7 +106,7 @@ public class Animal implements Parcelable {
         dest.writeString(this.name);
         dest.writeInt(this.age);
         dest.writeValue(this.hasChip);
-        dest.writeLong(this.date);
+        dest.writeString(this.date);
         dest.writeByteArray(this.picture);
     }
 }

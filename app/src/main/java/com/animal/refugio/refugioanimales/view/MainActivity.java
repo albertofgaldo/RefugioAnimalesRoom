@@ -1,6 +1,7 @@
 package com.animal.refugio.refugioanimales.view;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,12 +25,12 @@ public class MainActivity extends AppCompatActivity {
         listButton = (Button)findViewById(R.id.buttonList);
         createButton = (Button)findViewById(R.id.buttonCreate);
 
-        animalController = new AnimalController(this);
+        animalController = ViewModelProviders.of(this).get(AnimalController.class);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animalController.closeConnection();
+                //animalController.closeConnection();
                 Intent create = new Intent(MainActivity.this, CreateActivity.class);
                 startActivity(create);
             }
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animalController.closeConnection();
+                //animalController.closeConnection();
                 Intent list = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(list);
             }
@@ -48,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        animalController.closeConnection();
+       // animalController.closeConnection();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        animalController.openConnection();
+       // animalController.openConnection();
     }
 
 
