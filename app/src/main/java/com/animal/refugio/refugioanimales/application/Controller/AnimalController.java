@@ -36,7 +36,7 @@ public class AnimalController extends AndroidViewModel {
     private DBController dbController;
     private LiveData <List<AnimalDTO>> animalesDTO;
     Animal animal;
-
+    
     public AnimalController(@NonNull Application application){
         super(application);
         dbController = new DBController(application);
